@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Lesotho Tour Guide Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        #map { height: 100vh; width: 100%; }
+        .popup-content { max-width: 300px; }
+        .popup-content h3 { margin-top: 0; color: #2c3e50; }
+        .quiz-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<div id="loading" class="loading">Loading map...</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
+
+<script>
+    const MAP_CONFIG = {
+        center: [-29.609988, 28.233608],
+        zoom: 8,
+        tileLayer: {
+            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            attribution: '© OpenStreetMap contributors'
+        }
+    };
+
+    const HOTSPOTS = [
+        { id: 'katse', name: "Katse Dam", coords: [-29.2714, 28.5172], description: "Katse Dam is a major dam in Lesotho." },
+        { id: 'letseng-mine', name: "Lets'eng Mine", coords: [-28.8758, 28.7269], description: "Lets'eng Mine is a major diamond mine." },
+        { id: 'pioneer-mall', name: "Pioneer Mall", coords: [-29.3167, 27.4883], description: "Pioneer Mall is a major shopping center in Maseru." }
+    ];
+
+    let map, userLocation, router;
+
+    function initMap() {
+        map = L.map('map').setView(MAP_CONFIG.center, MAP_CONFIG.zoom);
+        L.tileLayer(MAP_CONFIG.tileLayer.url, { attribution: MAP_CONFIG.tileLayer.attribution }).addTo(map);
+    }
+
+    function addHotspots() {
+        HOTSPOTS.forEach(hotspot => {
+            const marker = L.marker(hotspot.coords).addTo(map);
+            marker.bindPopup(`
+                <div class="popup-content">
+                    <h3>${hotspot.name}</h3>
+                    <p>${hotspot.description}</p>
+                    <a href="#" onclick="onHotspotClick(${hotspot.coords[0]}, ${hotspot.coords[1]}); return false;">Navigate</a><br>
+                    <a class="quiz-link" href="#" onclick="alert('hotspot:${hotspot.id}'); return false;">More...</a>
+                </div>
+            `);
+        });
+    }
+
+    function locateUser() {
+        map.locate({ setView: true, maxZoom: 13, enableHighAccuracy: true });
+
+        map.on('locationfound', e => {
+            userLocation = e.latlng;
+            L.marker(userLocation).addTo(map).bindPopup("You are here").openPopup();
+
+            // Start continuous location tracking
+            map.on('move', updateUserLocation);
+        });
+
+        map.on('locationerror', e => {
+            alert("Unable to retrieve your location.");
+        });
+    }
+
+    function updateUserLocation() {
+        if (userLocation) {
+            const userMarker = L.marker(userLocation).addTo(map);
+            userMarker.setLatLng(userLocation);
+            if (router) {
+                // Update the route if the user moves
+                router.setWaypoints([
+                    L.latLng(userLocation.lat, userLocation.lng),
+                    L.latLng(userLocation.lat, userLocation.lng)
+                ]);
+            }
+        }
+    }
+
+    function onHotspotClick(lat, lng) {
+        if (!userLocation) {
+            alert("User location not available yet.");
+            return;
+        }
+
+        if (router) {
+            map.removeControl(router); // Remove previous route
+        }
+
+        router = L.Routing.control({
+            waypoints: [
+                L.latLng(userLocation.lat, userLocation.lng), // Starting point (user location)
+                L.latLng(lat, lng) // Destination (hotspot location)
+            ],
+            routeWhileDragging: false // Optional: Allow the route to be dragged by the user
+        }).addTo(map); // Add routing control to the map
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initMap();
+        addHotspots();
+        locateUser();
+        document.getElementById('loading').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* Root background with soft gradient */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: linear-gradient(to bottom right, #a18cd1, #fbc2eb);
+}
+
+/* Side panel with vibrant color and gradient */
+.side-panel {
+    -fx-background-color: linear-gradient(to bottom, #fce38a, #f38181);
+    -fx-padding: 20;
+    -fx-spacing: 20;
+    -fx-border-color: #ff6f61;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.2, 0, 4);
+}
+
+/* Title styling */
+.panel-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3a3a3a;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 2, 0, 1, 1);
+}
+
+/* TextArea styling */
+.text-area {
+    -fx-control-inner-background: #fff3cd;
+    -fx-border-color: #ffa502;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+    -fx-effect: innershadow(gaussian, #ffd966, 5, 0.3, 0, 0);
+}
+
+/* Button styling */
+.button {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 24;
+    -fx-background-color: linear-gradient(to right, #00c9ff, #92fe9d);
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 6, 0, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+/* Secondary Button */
+.btn-secondary {
+    -fx-background-color: linear-gradient(to right, #ff758c, #ff7eb3);
+}
+
+.btn-secondary:hover {
+    -fx-background-color: linear-gradient(to right, #fd868c, #fe9a8b);
+}
+
+/* Card section (e.g., quiz) */
+.card {
+    -fx-background-color: linear-gradient(to top right, #ffffff, #e0c3fc);
+    -fx-padding: 15;
+    -fx-border-color: #b197fc;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 3);
+}
+
+/* Quiz title */
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6a0572;
+}
+
+/* Quiz question text */
+.card-text {
+    -fx-font-size: 15px;
+    -fx-text-fill: #1f1f1f;
+}
+
+/* Radio button style */
+.radio-button {
+    -fx-padding: 5 0;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* MediaView styling */
+.media-view {
+    -fx-border-color: #4ecdc4;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 2);
+}
+
+/* Image styling */
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.3, 0, 4);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* Label styling */
+.label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #343a40;
+    -fx-font-weight: bold;
+}
